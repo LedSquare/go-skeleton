@@ -1,0 +1,34 @@
+# Структура кода
+- cmd/ - Точка входа (http, queue, schedule и так далее)
+	- http/
+		- main.go - Воркер приложеия
+	- queue/
+		- main.go - Воркер очереди
+	- migration/
+		- main.go - Воркер запуска миграций
+- docs/ - Документация. Произвольно
+- internal/ - private
+	- app/ 
+		- app.go - Структура App, New, Close, геттеры
+		- infra.go - NewLogger, NewDB, NewRedis, NewTracer
+		- server.go - RunHTTP, graceful shutdown
+		- middleware.go -  Общие middleware (recover, request-id, logging)
+		- router.go - Каркас роутера, health-check, регистрация
+	- config/
+		- config.go
+	- di/
+		- di.go - Контейнер для загрузки зависимостей доменов
+	- domains/ - Бизнес домены
+		- user/ - Какой либо домен
+			- handler/
+			- usecase/
+			- repository/
+			- model/
+			- config.go - Конфигурация домена
+	- config/
+		- config.go - Структуры
+		- load.go - Загрузка конфига
+		- validate.go
+- pgk - Публичный код / собственные библиотеки
+- database/
+	- migrations/ 
