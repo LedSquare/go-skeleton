@@ -24,6 +24,8 @@
 			- usecase/
 			- repository/
 			- model/
+				- user.go - Основная сущность
+				- order_provider.go - Интерфейс для запроса данных из другого микросервиса или домена.
 			- config.go - Конфигурация домена
 	- config/
 		- config.go - Структуры
@@ -31,4 +33,20 @@
 		- validate.go
 - pgk - Публичный код / собственные библиотеки
 - database/
-	- migrations/ 
+	- migrations/
+		- user/
+
+
+# Правила взаимодействия между доменами
+1. Интерфейс определяется в модели
+Контракт:
+- domain/user/model/
+	- user.go - Сама сущность
+	- order_provider.go - Интерфейс для запроса данных из домена заказов
+Реализация:
+- domain/user/client/
+	- order/
+		- order_inprocess.go - Запращивает данные из соседнего модуля(если монолит)
+		- order_http.go - Делает запрос в другой сервис по http
+		- order_grpc.go - Делает запрос в другой сервис по gRPC
+
