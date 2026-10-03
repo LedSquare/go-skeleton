@@ -1,1 +1,1 @@
-package migration
+package main
