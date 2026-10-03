@@ -1,0 +1,59 @@
+# --- Go: бинарники и артефакты сборки ---
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+coverage.*
+*.coverprofile
+profile.cov
+
+# Папки сборки (если используешь Makefile или go build -o ./bin)
+bin/
+dist/
+build/
+
+# --- Go: workspace (локальная разработка, не коммитим) ---
+go.work
+go.work.sum
+
+# --- Зависимости (если вендоришь — раскомментируй) ---
+# vendor/
+
+# --- Локальные конфиги и секреты ---
+.env
+.env.local
+.env.*.local
+config.local.yaml
+config.local.yml
+*.local.yaml
+*.local.yml
+
+# --- Миграции: сгенерированные/временные файлы ---
+# Если генерируешь тестовые данные или дампы
+migrations/**/*.lock
+migrations/**/*.bak
+migrations/**/*_generated.up.sql
+migrations/**/*_generated.down.sql
+migrations/**/*.generated.sql
+*.dump
+*.sql.gz
+
+# --- IDE и редакторы ---
+.idea/
+.vscode/
+*.code-workspace
+*.swp
+*.swo
+*~
+
+# --- OS ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
