@@ -27,10 +27,8 @@
 				- user.go - Основная сущность
 				- order_provider.go - Интерфейс для запроса данных из другого микросервиса или домена.
 			- config.go - Конфигурация домена
-	- config/
-		- config.go - Структуры
-		- load.go - Загрузка конфига
-		- validate.go
+- config/
+	- config.go - Структуры / Парсинг / json / yaml и т. д.
 - pgk - Публичный код / собственные библиотеки
 - database/
 	- migrations/
