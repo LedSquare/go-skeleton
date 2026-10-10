@@ -14,8 +14,6 @@
 		- server.go - RunHTTP, graceful shutdown
 		- middleware.go -  Общие middleware (recover, request-id, logging)
 		- router.go - Каркас роутера, health-check, регистрация
-	- config/
-		- config.go
 	- di/
 		- di.go - Контейнер для загрузки зависимостей доменов
 	- domains/ - Бизнес домены
