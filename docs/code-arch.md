@@ -1,53 +1,44 @@
 # Структура кода
-- cmd/ - Точка входа (http, queue, schedule и так далее)
-	- http/
-		- main.go - Воркер приложеия
-	- queue/
-		- main.go - Воркер очереди
-	- migration/
-		- main.go - Воркер запуска миграций
-- docs/ - Документация. Произвольно
-- internal/ - private
-	- app/ 
-		- app.go - Структура App, New, Close, геттеры
-		- infra.go - NewLogger, NewDB, NewRedis, NewTracer
-		- server.go - RunHTTP, graceful shutdown
-		- middleware.go -  Общие middleware (recover, request-id, logging)
-		- router.go - Каркас роутера, health-check, регистрация
-	- di/
-		- di.go - Контейнер для загрузки зависимостей доменов
-	- domains/ - Бизнес домены
-		- user/ - Какой либо домен
-			- http/
-				- handelrs/
-				- dto/ 
-				- routes/
-			- usecases/
-			- repositories/
-			- models/
-				- user.go - Основная сущность
-				- order_provider.go - Интерфейс для запроса данных из другого микросервиса или домена.
-			- config.go - Конфигурация домена
-			- ports/ - Контракты для взаимодействия с внешним миром
-			- rules/ - Чистая бизнес валидаця, статические правила домена
-- config/
-	- config.go - Структуры / Парсинг / json / yaml и т. д.
-- pgk - Публичный код для всех доменов и системы
-- database/
-	- migrations/
-		- user/
-
-
-# Правила взаимодействия между доменами
-1. Интерфейс определяется в модели
-Контракт:
-- domain/user/model/
-	- user.go - Сама сущность
-	- order_provider.go - Интерфейс для запроса данных из домена заказов
-Реализация:
-- domain/user/client/
-	- order/
-		- order_inprocess.go - Запращивает данные из соседнего модуля(если монолит)
-		- order_http.go - Делает запрос в другой сервис по http
-		- order_grpc.go - Делает запрос в другой сервис по gRPC
-
+- `cmd/` - Точка входа (http, queue, migration и так далее)
+	- `http/`
+		- `main.go` - Воркер HTTP-приложения
+	- `queue/`
+		- `main.go` - Воркер очереди
+	- `migration/`
+		- `main.go` - Воркер запуска миграций
+- `config/`
+	- `config.go` - Структуры / Парсинг / json / yaml и т. д.
+- `database/`
+	- `migrations/`
+		- `postgresql/` - SQL-миграции PostgreSQL
+- `docs/` - Документация. Произвольно
+	- `code-arch.md` - Описание архитектуры
+- `internal/` - private
+	- `app/`
+		- `app.go` - Структура `App`, `New`, `Close`, геттеры
+		- `infra.go` - `NewLogger`, `NewDB`, `NewRedis`, `NewTracer`
+		- `server.go` - `RunHTTP`, graceful shutdown
+		- `middleware.go` - Общие middleware (recover, request-id, logging)
+		- `router.go` - Каркас роутера, health-check и так далее
+	- `domains/` - Бизнес домены
+		- `user/` - Какой-либо домен
+			- `infrastructure/` - Реализации портов домена
+				- `adapters/` - Адаптеры если нужно: cache, logger, complexity data mappers
+				- `clients/` - Клиенты внешних систем, соседних микросервисов, либо доменов
+				- `repositories/` - Репозитории (получение внешних данных)
+			- `models/` - Сущности домена
+				- `subentity/` - Вложенная сущность домена
+			- `transport/` - Входные точки системы, http, grpc, rabbitmq, kafka, cli
+				- `http/`
+					- `dto/` - DTO запросов / ответов
+					- `handlers/` - HTTP-хендлеры
+					- `middleware/` - Middleware домена
+					- `routes/` - Регистрация маршрутов домена
+			- `usecases/` - Основные бизнес сценарии
+				- `ports/` -  Интерфейсы для работы бизнес сценария
+					- `providers/` - Провайдеры данных из внешних систем
+					- `repositories/` - Получение внутренних данных
+			- `config.go` - Конфигурация над доменом
+			- `di.go` - Сборка домена для приложения на верхнем уровне
+- `pkg/` - Публичный код для всех доменов и системы
+- `Taskfile.yaml` - Таск-раннер
